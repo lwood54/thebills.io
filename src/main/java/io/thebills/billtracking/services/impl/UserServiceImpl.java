@@ -4,12 +4,9 @@ import io.thebills.billtracking.beans.User;
 import io.thebills.billtracking.dao.UserDao;
 import io.thebills.billtracking.entities.UserEntity;
 import io.thebills.billtracking.services.UserService;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
-@Primary
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
