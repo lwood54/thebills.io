@@ -5,22 +5,20 @@ import io.thebills.billtracking.dao.UserDao;
 import io.thebills.billtracking.entities.UserEntity;
 import io.thebills.billtracking.services.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
-@Primary
-public class UserServiceImpl implements UserService {
+public class AltUserServiceImpl implements UserService{
 
     private final UserDao userDao;
 
-    public UserServiceImpl(final UserDao userDao) {
+    public AltUserServiceImpl(final UserDao userDao) {
         this.userDao = userDao;
     }
 
     @Override
     public User getUserDetails(final String email) {
-        System.out.println("getting user details by email (in UserServiceImpl: " + email);
+        System.out.println("ALTERNATE: getting user details by email (in AltUserServiceImpl): " + email);
         User user = new User();
         user.setEmail(email);
         System.out.println("user: " + user);
@@ -37,3 +35,4 @@ public class UserServiceImpl implements UserService {
         userDao.createUser(userEntity);
     }
 }
+
