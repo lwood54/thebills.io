@@ -53,7 +53,7 @@ public class BillTrackingController {
         return userService.updateUser(updatedUser.getEmail(), updatedUser);
     }
 
-    @GetMapping("/delete-user")
+    @DeleteMapping("/delete-user")
     public void deleteUser(@RequestParam String email) {
         userService.deleteUser(email);
     }
