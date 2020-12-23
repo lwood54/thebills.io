@@ -48,10 +48,13 @@ public class BillTrackingController {
     }
 
     @PostMapping("/update-user")
-    public User updateUser(@RequestBody User updatedUser) {
+    public UserEntity updateUser(@RequestBody User updatedUser) {
         // QUESTION: What is best way to handle when user puts in email not found in db?
-        userService.updateUser(updatedUser.getEmail(), updatedUser);
-        // todo: only return updatedUser if user data was successfully updated
-        return updatedUser;
+        return userService.updateUser(updatedUser.getEmail(), updatedUser);
+    }
+
+    @GetMapping("/delete-user")
+    public void deleteUser(@RequestParam String email) {
+        userService.deleteUser(email);
     }
 }

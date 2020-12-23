@@ -20,6 +20,7 @@ public interface UserService {
     // todo: get list of all users
     List<UserEntity> findAll();
 
-    void updateUser(String email, User updatedUser);
+    UserEntity updateUser(String email, User updatedUser);
 
+    void deleteUser(String email);
 }

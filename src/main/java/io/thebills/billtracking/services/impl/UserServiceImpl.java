@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(String email, User updatedUser) {
+    public UserEntity updateUser(String email, User updatedUser) {
         UserEntity userEntity = userDao.findUser(email);
         if (updatedUser.getFirstName() != null && updatedUser.getFirstName() != "") {
             userEntity.setFirstName(updatedUser.getFirstName());
@@ -58,6 +58,11 @@ public class UserServiceImpl implements UserService {
         if (updatedUser.getLastName() != null && updatedUser.getLastName() != "") {
             userEntity.setLastName(updatedUser.getLastName());
         }
-        userDao.updateUser(email, userEntity);
+        return userDao.updateUser(email, userEntity);
+    }
+
+    @Override
+    public void deleteUser(String email) {
+        userDao.deleteUser(email);
     }
 }

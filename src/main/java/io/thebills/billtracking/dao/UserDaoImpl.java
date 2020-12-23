@@ -2,6 +2,7 @@ package io.thebills.billtracking.dao;
 
 import io.thebills.billtracking.entities.UserEntity;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -54,7 +55,21 @@ public class UserDaoImpl implements UserDao { // implements the data access obje
 
     @Override
     @Transactional
-    public void updateUser(String email, UserEntity updatedUser) {
+    public UserEntity updateUser(String email, UserEntity updatedUser) {
         entityManager.unwrap(Session.class).update(updatedUser);
+        // todo: only return updatedUser if successful update
+        return updatedUser;
+    }
+
+    @Override
+    public void deleteUser(String email) {
+        Session currentSession = entityManager.unwrap(Session.class);
+        // NOTE: delete would not work without adding the transaction, then committing when done
+        Transaction tx = currentSession.beginTransaction();
+        UserEntity userToDelete = currentSession.load(UserEntity.class, email);
+        System.out.println("Using email..." + email);
+        System.out.println("Deleting user..." + userToDelete);
+        currentSession.delete(userToDelete);
+        tx.commit();
     }
 }
