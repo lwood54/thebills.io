@@ -48,4 +48,16 @@ public class UserServiceImpl implements UserService {
             System.out.println("finding all");
             return userList;
     }
+
+    @Override
+    public void updateUser(String email, User updatedUser) {
+        UserEntity userEntity = userDao.findUser(email);
+        if (updatedUser.getFirstName() != null && updatedUser.getFirstName() != "") {
+            userEntity.setFirstName(updatedUser.getFirstName());
+        }
+        if (updatedUser.getLastName() != null && updatedUser.getLastName() != "") {
+            userEntity.setLastName(updatedUser.getLastName());
+        }
+        userDao.updateUser(email, userEntity);
+    }
 }

@@ -11,4 +11,5 @@ public interface UserDao {
     void createUser(UserEntity newUser);
     UserEntity findUser(String email);
     List<UserEntity> findAll();
+    void updateUser(String email, UserEntity updatedUser);
 }

@@ -25,16 +25,7 @@ public class BillTrackingController {
     @GetMapping("/user-details")
     public UserEntity getUserDetails(@RequestParam(name="email") String email) {
         System.out.println("getting user details by email in controller: " + email);
-        // todo: don't create new user, instead access user details from db
         return userService.getUserDetails(email);
-    }
-
-    @PostMapping("/new-user")
-    public User saveNewUser(@RequestBody User user) {
-        userService.createUser(user);
-        // NOTE: returning user here as was passed by the original post request
-        //  user is not a response object, if there was one it would be of the UserEntity Type?
-        return user;
     }
 
     @GetMapping("/all-users")
@@ -45,5 +36,22 @@ public class BillTrackingController {
     //      A: Issue had to do with query string
     public List<UserEntity> getAllUsers() {
         return userService.findAll();
+    }
+
+    @PostMapping("/new-user")
+    public User saveNewUser(@RequestBody User user) {
+        userService.createUser(user);
+        // todo: only return user here if user was successfully saved to db
+        // NOTE: returning user here as was passed by the original post request
+        //  user is not a response object, if there was one it would be of the UserEntity Type?
+        return user;
+    }
+
+    @PostMapping("/update-user")
+    public User updateUser(@RequestBody User updatedUser) {
+        // QUESTION: What is best way to handle when user puts in email not found in db?
+        userService.updateUser(updatedUser.getEmail(), updatedUser);
+        // todo: only return updatedUser if user data was successfully updated
+        return updatedUser;
     }
 }

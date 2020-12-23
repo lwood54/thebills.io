@@ -20,4 +20,6 @@ public interface UserService {
     // todo: get list of all users
     List<UserEntity> findAll();
 
+    void updateUser(String email, User updatedUser);
+
 }

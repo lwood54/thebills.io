@@ -17,7 +17,7 @@ import java.util.List;
 public class UserDaoImpl implements UserDao { // implements the data access object which may contain methods for crud operations
 
     // used to help control db operations more simple, useful built in functions
-    @Autowired // QUESTION: is Autowired essential here, it did not seem to do anything.
+    @Autowired // QUESTION: is Autowired essential here, it did not seem to do anything.    A: Not necessarily when structure is setup correctly
     private final EntityManager entityManager;
 
     // if UserDaoImpl is never called, when is entityManager passed as argument? Is this automatic at runtime?
@@ -28,26 +28,33 @@ public class UserDaoImpl implements UserDao { // implements the data access obje
     @Override
     @Transactional
     public void createUser(UserEntity newUser) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        currentSession.save(newUser);
+    //        Session currentSession = entityManager.unwrap(Session.class);
+    //        currentSession.save(newUser);
+        entityManager.unwrap(Session.class).save(newUser);
     }
 
     @Override
     @Transactional
     public UserEntity findUser(String email) {
         // I know session creates a connection with the db, not sure what Session.class is
-        Session currentSession = entityManager.unwrap(Session.class);
-//        User user = currentSession.find(User.class, email);
-        UserEntity userEntity = currentSession.find(UserEntity.class, email);
-        return userEntity;
+        // NOTE: Types in use here:     Session currentSession = entityManager.unwrap(Session.class);
+        //                              UserEntity userEntity = currentSession.find(UserEntity.class, email);
+        return entityManager.unwrap(Session.class).find(UserEntity.class, email);
     }
 
     @Override
+    @Transactional
     public List<UserEntity> findAll() {
         Session currentSession = entityManager.unwrap(Session.class);
         // NOTE: Location of issue when error was User is not mapped was the search string below this line User --> UserEntity
-        Query<UserEntity> query = currentSession.createQuery("from UserEntity", UserEntity.class);
-        List<UserEntity> list = query.getResultList();
-        return list;
+        // NOTE: Types in use here: Query<UserEntity> query = currentSession.createQuery("from UserEntity", UserEntity.class);
+        //                          List<UserEntity> list = query.getResultList();
+        return currentSession.createQuery("from UserEntity", UserEntity.class).getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(String email, UserEntity updatedUser) {
+        entityManager.unwrap(Session.class).update(updatedUser);
     }
 }
