@@ -1,7 +1,5 @@
 package io.thebills.billtracking.beans;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-
 public class User {
         private String email;
         private String firstName;

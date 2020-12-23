@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+// UserEntity is the shape of our data table, each row being a user
+
 @Entity
 @Table(name = "user")
 public class UserEntity {
