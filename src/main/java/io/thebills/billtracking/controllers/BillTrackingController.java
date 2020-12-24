@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// @RequestMapping("/api") would add the /api path in front of all of the paths grouped in this controller
 @RestController
-@RequestMapping
 public class BillTrackingController {
 
     // setting up undefined userSerivce that is injected with dependencies in the constructor
@@ -21,13 +21,25 @@ public class BillTrackingController {
         this.userService = userService;
     }
 
-    // creating a route that returns
+    // CREATE NEW USER
+    @PostMapping("/new-user")
+    public User saveNewUser(@RequestBody User user) {
+        userService.createUser(user);
+        // todo: only return user here if user was successfully saved to db
+        return user;
+    }
+
+    // READ / Find Specified user by primary id: email
     @GetMapping("/user-details")
     public UserEntity getUserDetails(@RequestParam(name="email") String email) {
-        System.out.println("getting user details by email in controller: " + email);
+        UserEntity foundUser = userService.getUserDetails(email);
+        if (foundUser == null) {
+            throw new RuntimeException("There is no user with email: " + email);
+        }
         return userService.getUserDetails(email);
     }
 
+    // READ / Get list of all users
     @GetMapping("/all-users")
     // have tried List<User> and replaced all locations required according to error messages
     // same error message though... "User is not mapped" even when I switch to UserEntity
@@ -38,23 +50,22 @@ public class BillTrackingController {
         return userService.findAll();
     }
 
-    @PostMapping("/new-user")
-    public User saveNewUser(@RequestBody User user) {
-        userService.createUser(user);
-        // todo: only return user here if user was successfully saved to db
-        // NOTE: returning user here as was passed by the original post request
-        //  user is not a response object, if there was one it would be of the UserEntity Type?
-        return user;
-    }
-
+    // UPDATE - update specified user by accessing with primary id: email
     @PostMapping("/update-user")
     public UserEntity updateUser(@RequestBody User updatedUser) {
         // QUESTION: What is best way to handle when user puts in email not found in db?
+            // A (for now): check for return value, if not, throw Runtime Exception
+        UserEntity foundUser = userService.getUserDetails(updatedUser.getEmail());
+        if (foundUser == null) {
+            throw new RuntimeException("The user specified with email, " + " does not exist.");
+        }
         return userService.updateUser(updatedUser.getEmail(), updatedUser);
     }
 
+    // DELETE - delete user by specified primary id: email
     @DeleteMapping("/delete-user")
-    public void deleteUser(@RequestParam String email) {
+    public String deleteUser(@RequestParam String email) {
         userService.deleteUser(email);
+        return "User with email: " + email + " has been deleted.";
     }
 }

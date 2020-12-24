@@ -16,17 +16,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final UserDao userDao;
 
+    // QUESTION: Does @Autowired remove the need for this line?
     public UserServiceImpl(final UserDao userDao) {
         this.userDao = userDao;
-    }
-
-    @Override
-    @Transactional
-    public UserEntity getUserDetails(final String email) {
-        System.out.println("getting user details by email (in UserServiceImpl: " + email);
-        UserEntity userEntity = userDao.findUser(email);
-        System.out.println("user: " + userEntity);
-        return userEntity;
     }
 
     @Override
@@ -38,6 +30,12 @@ public class UserServiceImpl implements UserService {
         userEntity.setLastName(user.getLastName());
 
         userDao.createUser(userEntity);
+    }
+
+    @Override
+    @Transactional
+    public UserEntity getUserDetails(final String email) {
+        return userDao.findUser(email);
     }
 
     @Override

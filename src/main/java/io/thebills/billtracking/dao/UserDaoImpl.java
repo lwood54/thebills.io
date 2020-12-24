@@ -37,7 +37,6 @@ public class UserDaoImpl implements UserDao { // implements the data access obje
     @Override
     @Transactional
     public UserEntity findUser(String email) {
-        // I know session creates a connection with the db, not sure what Session.class is
         // NOTE: Types in use here:     Session currentSession = entityManager.unwrap(Session.class);
         //                              UserEntity userEntity = currentSession.find(UserEntity.class, email);
         return entityManager.unwrap(Session.class).find(UserEntity.class, email);
@@ -63,12 +62,10 @@ public class UserDaoImpl implements UserDao { // implements the data access obje
 
     @Override
     public void deleteUser(String email) {
-        Session currentSession = entityManager.unwrap(Session.class);
         // NOTE: delete would not work without adding the transaction, then committing when done
+        Session currentSession = entityManager.unwrap(Session.class);
         Transaction tx = currentSession.beginTransaction();
         UserEntity userToDelete = currentSession.load(UserEntity.class, email);
-        System.out.println("Using email..." + email);
-        System.out.println("Deleting user..." + userToDelete);
         currentSession.delete(userToDelete);
         tx.commit();
     }
