@@ -18,7 +18,6 @@ function FirstComponent() {
       case "lastName":
         setLastName(val);
         break;
-
       default:
         break;
     }

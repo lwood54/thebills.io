@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BilltrackingApplication {
 
 	public static void main(String[] args) {
-		// Will comment insert restart server
 		SpringApplication.run(BilltrackingApplication.class, args);
 	}
 

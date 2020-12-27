@@ -1,5 +1,6 @@
 package io.thebills.billtracking.controllers;
 
+import io.thebills.billtracking.beans.CreditCard;
 import io.thebills.billtracking.beans.User;
 import io.thebills.billtracking.entities.UserEntity;
 import io.thebills.billtracking.services.UserService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 // @RequestMapping("/api") would add the /api path in front of all of the paths grouped in this controller
 @RestController
@@ -60,6 +62,13 @@ public class BillTrackingController {
             throw new RuntimeException("The user specified with email, " + " does not exist.");
         }
         return userService.updateUser(updatedUser.getEmail(), updatedUser);
+    }
+
+    @PostMapping("/update-cclist")
+    public String updateCCList(@RequestBody Map<User, CreditCard> jsonPayload) {
+//        String email = jsonPayload.get(User)
+        System.out.println("Response in update-cclist >> jsonPayload: " + jsonPayload);
+        return "Success?";
     }
 
     // DELETE - delete user by specified primary id: email

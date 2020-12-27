@@ -2,6 +2,7 @@ package io.thebills.billtracking.dao;
 
 import io.thebills.billtracking.entities.CreditCardEntity;
 import io.thebills.billtracking.entities.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
