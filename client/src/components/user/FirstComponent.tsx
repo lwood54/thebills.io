@@ -1,9 +1,29 @@
+/**@jsxImportSource @emotion/react */
 import React, { useState } from "react";
+import { jsx, css } from "@emotion/react";
+
+const base = css`
+  color: orange;
+`;
+
+const danger = css`
+  color: red;
+`;
+
+const button = css`
+  background-color: teal;
+  color: white;
+`;
 
 function FirstComponent() {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [isDanger, setIsDanger] = useState(false);
+
+  function handleDangerClick() {
+    setIsDanger(!isDanger);
+  }
 
   function handleFormInput(e: React.FormEvent<HTMLInputElement>) {
     const name = e.currentTarget.name;
@@ -35,7 +55,7 @@ function FirstComponent() {
   }
   return (
     <div>
-      <h1>Add a user</h1>
+      <h1 css={[danger, base]}>Add a user</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">
           Email
@@ -51,6 +71,10 @@ function FirstComponent() {
         </label>
         <input type="submit" value="submit" />
       </form>
+      <h3 css={isDanger ? danger : base}>Danger Will Robinson</h3>
+      <button css={button} onClick={handleDangerClick}>
+        danger
+      </button>
     </div>
   );
 }
