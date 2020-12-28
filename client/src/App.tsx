@@ -1,11 +1,19 @@
 import React from "react";
-import FirstComponent from "./components/user/FirstComponent";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Welcome from "./components/login/Welcome";
+import CreditCards from "./components/creditcards/CreditCards";
+import Error from "./components/error/Error";
 
 function App() {
   return (
     <div className="App">
-      <h1>The Bills IO</h1>
-      <FirstComponent />
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Welcome} />
+          <Route path="/creditcards" component={CreditCards} />
+          <Route component={Error} />
+        </Switch>
+      </Router>
     </div>
   );
 }
